@@ -49,6 +49,7 @@ class Wrapper(PublishedModel):
 class IceCream(PublishedModel):
     title = models.CharField('Название', max_length=256)
     description = models.TextField('Описание')
+
     wrapper = models.OneToOneField(
         Wrapper,
         on_delete=models.SET_NULL,
@@ -65,10 +66,16 @@ class IceCream(PublishedModel):
     )
     toppings = models.ManyToManyField(Topping, verbose_name='Топпинги')
     is_on_main = models.BooleanField('На главную', default=False)
+    output_order = models.PositiveSmallIntegerField(
+        'Порядок отображения',
+        default=100
+    )
+    price = models.DecimalField('Цена', max_digits=5, decimal_places=2)
 
     class Meta:
         verbose_name = 'мороженое'
         verbose_name_plural = 'Мороженое'
+        ordering = ('output_order', 'title')
 
     def __str__(self):
         return self.title
