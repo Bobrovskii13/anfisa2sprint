@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import Category, IceCream
+from .models import Category, IceCream, Topping, Wrapper
 
 
-admin.site.register(Category)
+admin.site.empty_value_display = '<i><b>Не задано</b></i>'
 
 
 class IceCreamAdmin(admin.ModelAdmin):
@@ -23,6 +23,27 @@ class IceCreamAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('category',)
     list_display_links = ('title',)
+    filter_horizontal = ('toppings',)
+
+
+class IceCreamInline(admin.TabularInline):
+    model = IceCream
+    extra = 0
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    inlines = (
+        IceCreamInline,
+    )
+    list_display = (
+        'title',
+    )
 
 
 admin.site.register(IceCream, IceCreamAdmin)
+
+admin.site.register(Category, CategoryAdmin)
+
+admin.site.register(Topping)
+
+admin.site.register(Wrapper)

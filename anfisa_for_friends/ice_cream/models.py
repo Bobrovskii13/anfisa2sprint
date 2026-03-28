@@ -32,7 +32,11 @@ class Topping(PublishedModel):
 
 
 class Wrapper(PublishedModel):
-    title = models.CharField('Название', max_length=256)
+    title = models.CharField(
+        'Название',
+        max_length=256,
+        help_text='Уникальное название обёртки, не более 256 символов'
+    )
 
     class Meta:
         verbose_name = 'обёртка'
@@ -51,11 +55,13 @@ class IceCream(PublishedModel):
         related_name='ice_cream',
         null=True,
         blank=True,
+        verbose_name='Обёртка',
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
         related_name='ice_creams',
+        verbose_name='Категория',
     )
     toppings = models.ManyToManyField(Topping, verbose_name='Топпинги')
     is_on_main = models.BooleanField('На главную', default=False)
