@@ -27,6 +27,9 @@ class Topping(PublishedModel):
         verbose_name = 'топпинг'
         verbose_name_plural = 'Топпинги'
 
+    def __str__(self):
+        return self.title
+
 
 class Wrapper(PublishedModel):
     title = models.CharField('Название', max_length=256)
@@ -34,6 +37,9 @@ class Wrapper(PublishedModel):
     class Meta:
         verbose_name = 'обёртка'
         verbose_name_plural = 'Обёртки'
+
+    def __str__(self):
+        return self.title
 
 
 class IceCream(PublishedModel):
@@ -51,9 +57,12 @@ class IceCream(PublishedModel):
         on_delete=models.CASCADE,
         related_name='ice_creams',
     )
-    toppings = models.ManyToManyField(Topping)
+    toppings = models.ManyToManyField(Topping, verbose_name='Топпинги')
     is_on_main = models.BooleanField('На главную', default=False)
 
     class Meta:
         verbose_name = 'мороженое'
         verbose_name_plural = 'Мороженое'
+
+    def __str__(self):
+        return self.title
